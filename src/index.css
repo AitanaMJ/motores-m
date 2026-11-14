@@ -1,0 +1,262 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-petrol: #101518;
+  --color-petrol-deep: #0a0e10;
+  --color-graphite: #252d30;
+  --color-graphite-light: #323b3f;
+  --color-lime: #c6ff35;
+  --color-ice: #f5f7f2;
+  --color-steel: #899499;
+
+  --font-display: 'Bebas Neue', 'Oswald', Impact, 'Arial Narrow', sans-serif;
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+@layer base {
+  html {
+    background-color: var(--color-petrol);
+    color-scheme: dark;
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 96px;
+  }
+
+  body {
+    background-color: var(--color-petrol);
+    color: var(--color-ice);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: clip;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: var(--color-lime);
+    color: var(--color-petrol);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-lime);
+    outline-offset: 3px;
+  }
+
+  .on-light :focus-visible {
+    outline-color: var(--color-petrol);
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
+
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23899499' stroke-width='2.5'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    appearance: none;
+    padding-right: 40px !important;
+  }
+  select option {
+    background: var(--color-petrol);
+    color: var(--color-ice);
+  }
+}
+
+@layer components {
+  .container-x {
+    width: 100%;
+    max-width: 1440px;
+    margin-inline: auto;
+    padding-inline: clamp(16px, 4.2vw, 64px);
+  }
+
+  .display {
+    font-family: var(--font-display);
+    font-weight: 400;
+    line-height: 0.9;
+    letter-spacing: 0.005em;
+    text-transform: uppercase;
+  }
+
+  .eyebrow {
+    font-size: 0.7rem;
+    line-height: 1;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  /* Líneas para revelado de texto: el padding evita recortar tildes */
+  .reveal-line {
+    display: block;
+    overflow: hidden;
+    padding-block: 0.06em;
+    margin-block: -0.06em;
+  }
+  .reveal-line > span {
+    display: block;
+    will-change: transform;
+  }
+
+  .field {
+    width: 100%;
+    height: 52px;
+    border: 1px solid color-mix(in oklab, var(--color-ice) 16%, transparent);
+    background: color-mix(in oklab, var(--color-petrol-deep) 60%, transparent);
+    color: var(--color-ice);
+    padding-inline: 16px;
+    font-size: 0.95rem;
+    border-radius: 2px;
+    transition:
+      border-color 0.25s ease,
+      background-color 0.25s ease;
+  }
+  .field::placeholder {
+    color: color-mix(in oklab, var(--color-steel) 80%, transparent);
+  }
+  .field:hover {
+    border-color: color-mix(in oklab, var(--color-ice) 32%, transparent);
+  }
+  .field:focus-visible {
+    outline: none;
+    border-color: var(--color-lime);
+    box-shadow: 0 0 0 1px var(--color-lime);
+  }
+  .field[aria-invalid='true'] {
+    border-color: #ff8a7a;
+  }
+  textarea.field {
+    height: auto;
+    min-height: 140px;
+    padding-block: 14px;
+    resize: vertical;
+  }
+
+  .grain {
+    position: relative;
+  }
+  .grain::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.06;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .hairline-grid {
+    background-image: linear-gradient(
+      to right,
+      color-mix(in oklab, var(--color-ice) 6%, transparent) 1px,
+      transparent 1px
+    );
+    background-size: calc(100% / 12) 100%;
+  }
+
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@keyframes scroll-cue {
+  0% {
+    transform: translateY(-100%);
+  }
+  60%,
+  100% {
+    transform: translateY(100%);
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes slide-in-left {
+  from {
+    transform: translateX(-100%);
+  }
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}
+
+/* Menú móvil: cortina de arriba hacia abajo + entrada escalonada de enlaces */
+@keyframes menu-in {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+@keyframes menu-out {
+  from {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
+  to {
+    clip-path: inset(0 0 100% 0);
+    opacity: 0.6;
+  }
+}
+@keyframes menu-accent {
+  from {
+    transform: scaleX(0);
+  }
+}
+.mobile-menu[data-state='open'] {
+  animation: menu-in 0.6s var(--ease-out-expo) both;
+}
+.mobile-menu[data-state='closing'] {
+  animation: menu-out 0.32s var(--ease-in-out-quart) both;
+  pointer-events: none;
+}
+.mobile-menu[data-state='open'] .mobile-menu-item {
+  animation: rise 0.7s var(--ease-out-expo) both;
+}
+.mobile-menu[data-state='open'] .mobile-menu-accent {
+  animation: menu-accent 0.9s var(--ease-out-expo) 0.1s both;
+}
+
+.animate-scroll-cue {
+  animation: scroll-cue 2.2s var(--ease-in-out-quart) infinite;
+}
+.animate-fade-in {
+  animation: fade-in 0.35s ease both;
+}
+.animate-slide-in-left {
+  animation: slide-in-left 0.5s var(--ease-out-expo) both;
+}
+.animate-rise {
+  animation: rise 0.7s var(--ease-out-expo) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
